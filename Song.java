@@ -1,47 +1,45 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.*;
 
-public class Song {
+class Song {
 
-  private ArrayList<String> lyrics;
-  private HashMap<String, TreeSet<Integer>> map;
+  private final List<String> _lyrics;
+  private final Map<String, Set<Integer>> _map;
 
-  public Song(ArrayList<String> lyrics) {
-    this.lyrics = lyrics;
-    map = new HashMap<String, TreeSet<Integer>>();
+  Song(List<String> lyrics) {
+    _lyrics = lyrics;
+    _map = new HashMap<>();
     for (int i = 0; i < lyrics.size(); i++) {
       String word = Util.clearPunc(lyrics.get(i).toLowerCase());
-      if (map.containsKey(word)) {
-        map.get(word).add(i);
+      if (_map.containsKey(word)) {
+        _map.get(word).add(i);
       } else {
-        TreeSet<Integer> tree = new TreeSet<Integer>();
+        TreeSet<Integer> tree = new TreeSet<>();
         tree.add(i);
-        map.put(word, tree);
+        _map.put(word, tree);
       }
     }
   }
 
-  public boolean contains(String word) {
-    return map.containsKey(Util.clearPunc(word.toLowerCase()));
+  boolean contains(String word) {
+    return _map.containsKey(Util.clearPunc(word.toLowerCase()));
   }
 
-  public TreeSet<Integer> locations(String word) {
-    if (!map.containsKey(word)) {
-      return new TreeSet<Integer>();
+  Set<Integer> locations(String word) {
+    if (!_map.containsKey(word)) {
+      return new TreeSet<>();
     }
-    return map.get(word);
+    return _map.get(word);
   }
 
-  public void removeTree(String key) {
-    map.remove(key);
+  void removeTree(String key) {
+    _map.remove(key);
   }
 
-  public String getOriginalWord(int i) {
-    return lyrics.get(i);
+  String getOriginalWord(int i) {
+    return _lyrics.get(i);
   }
 
-  public int length() {
-    return lyrics.size();
+  int length() {
+    return _lyrics.size();
   }
 }

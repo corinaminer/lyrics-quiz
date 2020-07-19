@@ -1,107 +1,98 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.util.stream.Stream;
 
 public class GUI implements ActionListener, KeyListener {
 
-  JFrame frame;
-  JTextField field;
-  JLabel[] words;
-  Song song;
+  private final JFrame _frame;
+  private final JTextField _inputField;
+  private final JLabel[] _words;
+  private final Song _song;
 
-  public GUI(Song s) {
-    song = s;
+  GUI(Song s) {
+    _song = s;
 
-    frame = new JFrame();
-    frame.setResizable(true);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    _frame = new JFrame();
+    _frame.setResizable(true);
+    _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    words = new JLabel[song.length()];
+    _words = new JLabel[_song.length()];
 
     int numCols = 14;
-    int numRows = words.length / numCols;
-    if (words.length % numCols != 0) numRows++;
+    int numRows = _words.length / numCols;
+    if (_words.length % numCols != 0) numRows++;
     JPanel wordsPanel = new JPanel(new GridLayout(1, numCols));
     JPanel[] cols = new JPanel[numCols];
     for (int i = 0; i < numCols; i++) {
       cols[i] = new JPanel(new GridLayout(numRows, 1));
       wordsPanel.add(cols[i]);
     }
-    for (int i = 0; i < words.length; i++) {
-      words[i] = new JLabel(" " + song.getOriginalWord(i) + " ");
-      words[i].setOpaque(true);
-      words[i].setBackground(new Color(i % 55, i * 13 % 45, i * 17 % 40));
-      words[i].setForeground(new Color(i % 55, i * 13 % 45, i * 17 % 40));
-      cols[i / numRows].add(words[i]);
+    for (int i = 0; i < _words.length; i++) {
+      _words[i] = new JLabel(" " + _song.getOriginalWord(i) + " ");
+      _words[i].setOpaque(true);
+      Color color = new Color(i % 55, i * 13 % 45, i * 17 % 40);
+      _words[i].setBackground(color);
+      _words[i].setForeground(color);
+      cols[i / numRows].add(_words[i]);
     }
-    frame.add(wordsPanel, BorderLayout.NORTH);
+    _frame.add(wordsPanel, BorderLayout.NORTH);
 
-    field = new JTextField(30);
-    field.addKeyListener(this);
+    _inputField = new JTextField(30);
+    _inputField.addKeyListener(this);
     JButton giveUp = new JButton("Give up");
     giveUp.addActionListener(this);
-    JPanel bottom = new JPanel(new GridLayout(1, 3));
-    bottom.add(field);
+    JPanel bottom = new JPanel(new GridLayout(1, 2));
+    bottom.add(_inputField);
     bottom.add(giveUp);
-    frame.add(bottom, BorderLayout.SOUTH);
+    _frame.add(bottom, BorderLayout.SOUTH);
 
-    frame.pack();
-    frame.setVisible(true);
+    _frame.pack();
+    _frame.setVisible(true);
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     if (((JButton) e.getSource()).getText().equals("Give up")) {
-      for (int i = 0; i < words.length; i++)
-        if (words[i].getForeground() != Color.WHITE) words[i].setForeground(Color.YELLOW);
-    } else JOptionPane.showMessageDialog(frame, "No fucking idea what signal just got sent");
+      Stream.of(_words)
+          .filter(w -> w.getForeground() != Color.WHITE)
+          .forEach(w -> w.setForeground(Color.YELLOW));
+    } else JOptionPane.showMessageDialog(_frame, "WHAT was THAT ~`.`~");
   }
 
   @Override
   public void keyTyped(KeyEvent e) {
     if (e.getKeyChar() == '\n') {
-      String word = Util.clearPunc(field.getText().toLowerCase());
-      if (song.contains(word)) {
+      String word = Util.clearPunc(_inputField.getText().toLowerCase());
+      if (_song.contains(word)) {
         showWord(word);
         if (won()) {
-          JOptionPane.showMessageDialog(frame, "Good job and you win");
+          JOptionPane.showMessageDialog(_frame, "Good job and you win");
         }
       }
       if (word.length() > 4 && word.substring(word.length() - 3).equals("ing")) {
         showWord(word.substring(0, word.length() - 1));
       }
-      field.setText("");
+      _inputField.setText("");
     }
   }
 
   private void showWord(String word) {
-    for (int i : song.locations(word)) words[i].setForeground(Color.WHITE);
-    song.removeTree(word);
+    for (int i : _song.locations(word)) _words[i].setForeground(Color.WHITE);
+    _song.removeTree(word);
   }
 
   private boolean won() {
-    for (JLabel l : words) if (l.getForeground() != Color.WHITE) return false;
+    for (JLabel l : _words) if (l.getForeground() != Color.WHITE) return false;
     return true;
   }
 
   @Override
-  public void keyPressed(KeyEvent e) {
-    return;
-  }
+  public void keyPressed(KeyEvent e) {}
 
   @Override
-  public void keyReleased(KeyEvent e) {
-    return;
-  }
+  public void keyReleased(KeyEvent e) {}
 }
