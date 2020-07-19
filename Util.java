@@ -12,8 +12,13 @@ class Util {
    * @return a version of s with only the letters
    */
   static String clearPunc(String s) {
-    // TODO Keep unicode letters (ü, ş, etc)
-    return s.replaceAll("[^a-zA-Z]", "");
+    StringBuilder sb = new StringBuilder();
+    for (char c : s.toCharArray()) {
+      if (Character.isLetter(c)) {
+        sb.append(c);
+      }
+    }
+    return sb.toString();
   }
 
   /**
