@@ -1,5 +1,6 @@
 **/*.class
 .idea/
+out/
 lyrics-quiz.iml
 .DS_Store
 
