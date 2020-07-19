@@ -65,19 +65,14 @@ public class GUI implements ActionListener, KeyListener {
   }
 
   @Override
-  public void keyTyped(KeyEvent e) {
-    if (e.getKeyChar() == '\n') {
-      String word = Util.clearPunc(_inputField.getText().toLowerCase());
-      if (_song.contains(word)) {
-        showWord(word);
-        if (won()) {
-          JOptionPane.showMessageDialog(_frame, "Good job and you win");
-        }
-      }
-      if (word.length() > 4 && word.substring(word.length() - 3).equals("ing")) {
-        showWord(word.substring(0, word.length() - 1));
-      }
+  public void keyReleased(KeyEvent e) {
+    String word = Util.clearPunc(_inputField.getText().toLowerCase());
+    if (_song.contains(word)) {
+      showWord(word);
       _inputField.setText("");
+      if (won()) {
+        JOptionPane.showMessageDialog(_frame, "Good job and you win");
+      }
     }
   }
 
@@ -94,5 +89,5 @@ public class GUI implements ActionListener, KeyListener {
   public void keyPressed(KeyEvent e) {}
 
   @Override
-  public void keyReleased(KeyEvent e) {}
+  public void keyTyped(KeyEvent e) {}
 }
