@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 public class GUI implements ActionListener, KeyListener {
 
@@ -58,7 +58,7 @@ public class GUI implements ActionListener, KeyListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (((JButton) e.getSource()).getText().equals("Give up")) {
-      Stream.of(_words)
+      Arrays.stream(_words)
           .filter(w -> w.getForeground() != Color.WHITE)
           .forEach(w -> w.setForeground(Color.YELLOW));
     } else JOptionPane.showMessageDialog(_frame, "WHAT was THAT ~`.`~");
@@ -82,7 +82,7 @@ public class GUI implements ActionListener, KeyListener {
   }
 
   private boolean won() {
-    return Stream.of(_words).allMatch(w -> w.getForeground() == Color.WHITE);
+    return Arrays.stream(_words).allMatch(w -> w.getForeground() == Color.WHITE);
   }
 
   @Override
