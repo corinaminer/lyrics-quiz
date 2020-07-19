@@ -81,13 +81,12 @@ public class GUI implements ActionListener, KeyListener {
   }
 
   private void showWord(String word) {
-    for (int i : _song.locations(word)) _words[i].setForeground(Color.WHITE);
+    _song.locations(word).forEach(i -> _words[i].setForeground(Color.WHITE));
     _song.removeTree(word);
   }
 
   private boolean won() {
-    for (JLabel l : _words) if (l.getForeground() != Color.WHITE) return false;
-    return true;
+    return Stream.of(_words).allMatch(w -> w.getForeground() == Color.WHITE);
   }
 
   @Override
