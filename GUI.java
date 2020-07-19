@@ -20,8 +20,17 @@ public class GUI implements ActionListener, KeyListener {
     _frame.setResizable(true);
     _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    _words = new JLabel[_song.length()];
+    // Create interaction bar with input field and "give up" button
+    _inputField = new JTextField(30);
+    _inputField.addKeyListener(this);
+    JButton giveUp = new JButton("Give up");
+    giveUp.addActionListener(this);
+    JPanel interactionBar = new JPanel(new GridLayout(1, 2));
+    interactionBar.add(_inputField);
+    interactionBar.add(giveUp);
 
+    // Create JLabels for each word in the song
+    _words = new JLabel[_song.length()];
     int numCols = 14;
     int numRows = _words.length / numCols;
     if (_words.length % numCols != 0) numRows++;
@@ -39,17 +48,9 @@ public class GUI implements ActionListener, KeyListener {
       _words[i].setForeground(color);
       cols[i / numRows].add(_words[i]);
     }
-    _frame.add(wordsPanel, BorderLayout.NORTH);
 
-    _inputField = new JTextField(30);
-    _inputField.addKeyListener(this);
-    JButton giveUp = new JButton("Give up");
-    giveUp.addActionListener(this);
-    JPanel bottom = new JPanel(new GridLayout(1, 2));
-    bottom.add(_inputField);
-    bottom.add(giveUp);
-    _frame.add(bottom, BorderLayout.SOUTH);
-
+    _frame.add(interactionBar, BorderLayout.NORTH);
+    _frame.add(wordsPanel, BorderLayout.SOUTH);
     _frame.pack();
     _frame.setVisible(true);
   }
