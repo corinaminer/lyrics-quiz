@@ -4,6 +4,7 @@ class Song {
 
   private final List<String> _lyrics;
   private final Map<String, Set<Integer>> _map;
+  private final Set<String> _wordsGuessed;
 
   Song(List<String> lyrics) {
     _lyrics = lyrics;
@@ -18,10 +19,12 @@ class Song {
         _map.put(word, tree);
       }
     }
+    _wordsGuessed = new HashSet<>();
   }
 
-  boolean contains(String word) {
-    return _map.containsKey(Util.clearPunc(word.toLowerCase()));
+  boolean guessWord(String word) {
+    String hygienic = Util.clearPunc(word.toLowerCase());
+    return _map.containsKey(hygienic) && _wordsGuessed.add(hygienic);
   }
 
   Set<Integer> locations(String word) {
@@ -31,15 +34,15 @@ class Song {
     return _map.get(word);
   }
 
-  void removeTree(String key) {
-    _map.remove(key);
-  }
-
   String getOriginalWord(int i) {
     return _lyrics.get(i);
   }
 
   int length() {
     return _lyrics.size();
+  }
+
+  void reset() {
+    _wordsGuessed.clear();
   }
 }

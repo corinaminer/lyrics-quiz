@@ -10,7 +10,7 @@ public class GUI implements ActionListener, KeyListener {
 
   private final JFrame _frame;
   private final JTextField _inputField;
-  private final JLabel[] _words;
+  private final WordLabel[] _words;
   private final Song _song;
 
   GUI(Song s) {
@@ -24,13 +24,18 @@ public class GUI implements ActionListener, KeyListener {
     _inputField = new JTextField(30);
     _inputField.addKeyListener(this);
     JButton giveUp = new JButton("Give up");
+    JButton reset = new JButton("Reset");
     giveUp.addActionListener(this);
+    reset.addActionListener(this);
+    JPanel buttons = new JPanel(new GridLayout(1, 2));
+    buttons.add(giveUp);
+    buttons.add(reset);
     JPanel interactionBar = new JPanel(new GridLayout(1, 2));
     interactionBar.add(_inputField);
-    interactionBar.add(giveUp);
+    interactionBar.add(buttons);
 
-    // Create JLabels for each word in the song
-    _words = new JLabel[_song.length()];
+    // Create WordLabels for each word in the song
+    _words = new WordLabel[_song.length()];
     int numCols = 14;
     int numRows = _words.length / numCols;
     if (_words.length % numCols != 0) numRows++;
@@ -41,12 +46,10 @@ public class GUI implements ActionListener, KeyListener {
       wordsPanel.add(cols[i]);
     }
     for (int i = 0; i < _words.length; i++) {
-      _words[i] = new JLabel(" " + _song.getOriginalWord(i) + " ");
-      _words[i].setOpaque(true);
-      Color color = new Color(i % 55, i * 13 % 45, i * 17 % 40);
-      _words[i].setBackground(color);
-      _words[i].setForeground(color);
-      cols[i / numRows].add(_words[i]);
+      WordLabel wordLabel =
+          new WordLabel(_song.getOriginalWord(i), new Color(i % 55, i * 13 % 45, i * 17 % 40));
+      _words[i] = wordLabel;
+      cols[i / numRows].add(wordLabel);
     }
 
     _frame.add(interactionBar, BorderLayout.NORTH);
@@ -57,17 +60,25 @@ public class GUI implements ActionListener, KeyListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (((JButton) e.getSource()).getText().equals("Give up")) {
+    String buttonText = ((JButton) e.getSource()).getText();
+    if (buttonText.equals("Give up")) {
       Arrays.stream(_words)
           .filter(w -> w.getForeground() != Color.WHITE)
           .forEach(w -> w.setForeground(Color.YELLOW));
+    } else if (buttonText.equals("Reset")) {
+      reset();
     } else JOptionPane.showMessageDialog(_frame, "WHAT was THAT ~`.`~");
+  }
+
+  private void reset() {
+    _song.reset();
+    Arrays.stream(_words).forEach(WordLabel::reset);
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
     String word = Util.clearPunc(_inputField.getText().toLowerCase());
-    if (_song.contains(word)) {
+    if (_song.guessWord(word)) {
       showWord(word);
       _inputField.setText("");
       if (won()) {
@@ -78,7 +89,6 @@ public class GUI implements ActionListener, KeyListener {
 
   private void showWord(String word) {
     _song.locations(word).forEach(i -> _words[i].setForeground(Color.WHITE));
-    _song.removeTree(word);
   }
 
   private boolean won() {
