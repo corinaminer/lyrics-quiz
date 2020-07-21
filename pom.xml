@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>groupId</groupId>
+    <artifactId>lyrics-quiz</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+    </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation-api.version}</version>
+        </dependency>
+    </dependencies>
+    <properties>
+        <guava.version>28.1-jre</guava.version>
+        <guava-eea.version>0.0.1</guava-eea.version>
+        <javax-annotation-api.version>1.3.2</javax-annotation-api.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <!-- For now we only use guava annotations. Only one jar can be specified, so this is all that is possible
+             until resolution of https://github.com/lastnpe/eclipse-null-eea-augments/issues/51 -->
+        <m2e.eea.annotationpath.maven>
+            M2_REPO/org/lastnpe/eea/guava-eea/${guava-eea.version}/guava-eea-${guava-eea.version}.jar
+        </m2e.eea.annotationpath.maven>
+    </properties>
+</project>
