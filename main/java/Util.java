@@ -3,9 +3,12 @@ import com.google.common.collect.ImmutableList;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @ParametersAreNonnullByDefault
 class Util {
@@ -27,40 +30,47 @@ class Util {
   }
 
   /**
-   * Returns all songs stored in file fname as an ArrayList of Song objects.
+   * Returns all songs stored in the provided directory as {@link Song} objects.
    *
-   * @param fname File to draw songs from
-   * @return all songs stored in file fname as an ArrayList of Song objects
+   * @param songsDir Directory to draw songs from
+   * @return All songs stored in directory {@code songsDir}
    */
-  @Nonnull
-  static List<Song> getSongs(String fname) {
-    Scanner sc = getScanner(fname);
+  static List<Song> getSongs(@Nonnull File songsDir) {
+    checkArgument(songsDir.isDirectory(), "Received non-directory file %s", songsDir.toString());
+    File[] files = songsDir.listFiles();
+    if (files == null) {
+      System.out.println(
+          String.format("Failed to list files in directory %s", songsDir.toString()));
+      return ImmutableList.of();
+    }
+
     ImmutableList.Builder<Song> songs = ImmutableList.builder();
-    while (sc.hasNextLine()) {
-      songs.add(getNextSong(sc));
+    for (File f : files) {
+      if (!f.canRead()) {
+        System.out.println(String.format("Warning: Do not have permissions to read file %s", f.toString()));
+        continue;
+      }
+      if (!f.isDirectory()) {
+        try {
+          songs.add(getNextSong(new Scanner(f)));
+        } catch (FileNotFoundException e) {
+          System.out.println(String.format("Unexpectedly could not find file %s", f.toString()));
+        }
+      }
     }
     return songs.build();
   }
 
-  /** Pulls lyrics from scanner until it hits a blank line or EOF. Returns new {@link Song}. */
+  /** Pulls lyrics from scanner until it hits EOF. Returns new {@link Song}. */
+  @Nonnull
   private static Song getNextSong(Scanner sc) {
     ImmutableList.Builder<String> lyrics = ImmutableList.builder();
     while (sc.hasNextLine()) {
-      String line = sc.nextLine();
-      if (line.equals("")) break;
-      lyrics.addAll(Arrays.asList(line.trim().split("\\s+")));
+      String line = sc.nextLine().trim();
+      if (!line.isEmpty()) {
+        lyrics.addAll(Arrays.asList(line.trim().split("\\s+")));
+      }
     }
     return new Song(lyrics.build());
-  }
-
-  /** Returns a scanner for the given filename. Exits if file DNE. */
-  private static Scanner getScanner(String fname) {
-    try {
-      return new Scanner(new File(fname));
-    } catch (Exception e) {
-      System.out.println("File " + fname + " not found. Bye");
-      System.exit(0);
-    }
-    return null;
   }
 }
