@@ -1,3 +1,5 @@
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,12 +8,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
 
+@ParametersAreNonnullByDefault
 public class GUI implements ActionListener, KeyListener {
 
-  private final JFrame _frame;
-  private final JTextField _inputField;
-  private final JLabel[] _words;
-  private final Song _song;
+  @Nonnull private final JFrame _frame;
+  @Nonnull private final JTextField _inputField;
+  @Nonnull private final JLabel[] _words;
+  @Nonnull private final Song _song;
 
   GUI(Song s) {
     _song = s;
