@@ -16,10 +16,11 @@ import static com.google.common.base.Preconditions.checkState;
 public class GUI implements ActionListener {
   private static final String SELECT_SONGS_DIR_BUTTON_TEXT = "Select songs directory";
 
+  @Nonnull private final Random _r = new Random();
   @Nonnull private JFileChooser _fileChooser;
+  @Nullable private List<Song> _currentDirSongs;
 
   @Nonnull private final JFrame _frame;
-
   @Nonnull private final JPanel _noSongPanel;
   @Nullable private SongView _songView;
 
@@ -29,8 +30,7 @@ public class GUI implements ActionListener {
     _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     File currentPath = Paths.get("").toAbsolutePath().toFile();
-    _fileChooser = new JFileChooser();
-    _fileChooser.setCurrentDirectory(currentPath);
+    _fileChooser = new JFileChooser(currentPath);
     _fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
     _noSongPanel = new JPanel(new BorderLayout());
@@ -47,6 +47,25 @@ public class GUI implements ActionListener {
     _frame.add(_noSongPanel);
     _frame.pack();
     _frame.setVisible(true);
+  }
+
+  /**
+   * Causes file selector popup to open, allowing user to choose a songs source directory. If the
+   * user does so, inits a song from the new directory.
+   */
+  void changeSongsSourceDirectory() {
+    File songsDir = getSongsSourceDirectory();
+    if (songsDir == null) {
+      // User hit cancel; ignore that indecisive moron
+      return;
+    }
+    List<Song> songs = Util.getSongs(songsDir);
+    if (!songs.isEmpty()) {
+      _currentDirSongs = Util.getSongs(songsDir);
+      selectNewSong();
+    } else {
+      JOptionPane.showMessageDialog(_frame, "No song files in the selected directory.");
+    }
   }
 
   /**
@@ -68,9 +87,17 @@ public class GUI implements ActionListener {
     }
   }
 
+  void selectNewSong() {
+    checkState(_currentDirSongs != null && !_currentDirSongs.isEmpty(), "Cannot select song");
+    initSongView(_currentDirSongs.get(_r.nextInt(_currentDirSongs.size())));
+  }
+
   private void initSongView(Song s) {
-    _songView = new SongView(s);
     _frame.remove(_noSongPanel);
+    if (_songView != null) {
+      _frame.remove(_songView);
+    }
+    _songView = new SongView(s, this);
     _frame.add(_songView);
     _frame.pack();
     _frame.setVisible(true);
@@ -80,18 +107,7 @@ public class GUI implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     String buttonText = ((JButton) e.getSource()).getText();
     if (buttonText.equals(SELECT_SONGS_DIR_BUTTON_TEXT)) {
-      File songsDir = getSongsSourceDirectory();
-      if (songsDir == null) {
-        // User hit cancel; ignore that indecisive moron
-        return;
-      }
-      List<Song> songs = Util.getSongs(songsDir);
-      if (songs.isEmpty()) {
-        JOptionPane.showMessageDialog(_frame, "No song files in the selected directory.");
-        return;
-      }
-      Random r = new Random();
-      initSongView(songs.get(r.nextInt(songs.size())));
+      changeSongsSourceDirectory();
     } else JOptionPane.showMessageDialog(_frame, "WHAT was THAT ~`.`~");
   }
 }

@@ -1,4 +1,5 @@
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import javax.annotation.Nonnull;
@@ -13,17 +14,14 @@ class Song {
 
   Song(List<String> lyrics) {
     _lyrics = ImmutableList.copyOf(lyrics);
-    _map = new HashMap<>();
+    Map<String, ImmutableSet.Builder<Integer>> lyricsMap = new HashMap<>();
     for (int i = 0; i < lyrics.size(); i++) {
       String word = Util.clearPunc(lyrics.get(i).toLowerCase());
-      if (_map.containsKey(word)) {
-        _map.get(word).add(i);
-      } else {
-        TreeSet<Integer> tree = new TreeSet<>();
-        tree.add(i);
-        _map.put(word, tree);
-      }
+      lyricsMap.computeIfAbsent(word, k -> ImmutableSet.builder()).add(i);
     }
+    _map =
+        lyricsMap.entrySet().stream()
+            .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, e -> e.getValue().build()));
   }
 
   boolean contains(String word) {
@@ -32,14 +30,7 @@ class Song {
 
   @Nonnull
   Set<Integer> locations(String word) {
-    if (!_map.containsKey(word)) {
-      return ImmutableSet.of();
-    }
-    return _map.get(word);
-  }
-
-  void removeTree(String key) {
-    _map.remove(key);
+    return _map.getOrDefault(word, ImmutableSet.of());
   }
 
   @Nonnull
