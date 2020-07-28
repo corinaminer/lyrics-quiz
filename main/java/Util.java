@@ -47,10 +47,14 @@ class Util {
     ImmutableList.Builder<Song> songs = ImmutableList.builder();
     for (File f : files) {
       if (!f.canRead()) {
-        System.out.println(String.format("Warning: Do not have permissions to read file %s", f.toString()));
+        System.out.println(
+            String.format("Warning: Do not have permissions to read file %s", f.toString()));
         continue;
       }
-      if (!f.isDirectory()) {
+      if (f.isDirectory()) {
+        // Recursively add songs in this subdirectory
+        songs.addAll(getSongs(f));
+      } else {
         try {
           songs.add(getNextSong(new Scanner(f)));
         } catch (FileNotFoundException e) {
