@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
 public class SongView extends JPanel implements ActionListener, KeyListener {
   private static final String GIVE_UP_BUTTON_TEXT = "Give up";
+  private static final String NEW_SONG_BUTTON_TEXT = "New song";
+  private static final String CHANGE_SOURCE_BUTTON_TEXT = "Change source";
 
   @Nonnull private final JTextField _inputField;
   @Nonnull private final JLabel[] _words;
@@ -19,14 +22,23 @@ public class SongView extends JPanel implements ActionListener, KeyListener {
   SongView(Song song) {
     _song = song;
 
-    // Create interaction bar with input field and "give up" button
+    // Create input field
     _inputField = new JTextField(30);
     _inputField.addKeyListener(this);
-    JButton giveUp = new JButton(GIVE_UP_BUTTON_TEXT);
-    giveUp.addActionListener(this);
+
+    // Create buttons and JPanel to hold them
+    JPanel buttonsPanel = new JPanel(new GridLayout(1, 3));
+    Stream.of(GIVE_UP_BUTTON_TEXT, NEW_SONG_BUTTON_TEXT, CHANGE_SOURCE_BUTTON_TEXT)
+        .forEach(
+            buttonText -> {
+              JButton button = new JButton(buttonText);
+              button.addActionListener(this);
+              buttonsPanel.add(button);
+            });
+
     JPanel interactionBar = new JPanel(new GridLayout(1, 2));
     interactionBar.add(_inputField);
-    interactionBar.add(giveUp);
+    interactionBar.add(buttonsPanel);
 
     // Create JLabels for each word in the song
     _words = new JLabel[_song.length()];
@@ -56,11 +68,18 @@ public class SongView extends JPanel implements ActionListener, KeyListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     String buttonText = ((JButton) e.getSource()).getText();
-    if (buttonText.equals(GIVE_UP_BUTTON_TEXT)) {
-      Arrays.stream(_words)
-          .filter(w -> w.getForeground() != Color.WHITE)
-          .forEach(w -> w.setForeground(Color.YELLOW));
-    } else JOptionPane.showMessageDialog(this, "WHAT was THAT ~`.`~");
+    switch (buttonText) {
+      case GIVE_UP_BUTTON_TEXT:
+        Arrays.stream(_words)
+            .filter(w -> w.getForeground() != Color.WHITE)
+            .forEach(w -> w.setForeground(Color.YELLOW));
+        break;
+      case NEW_SONG_BUTTON_TEXT:
+      case CHANGE_SOURCE_BUTTON_TEXT:
+        break;
+      default:
+        JOptionPane.showMessageDialog(this, "WHAT was THAT ~`.`~");
+    }
   }
 
   @Override
