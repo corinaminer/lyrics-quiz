@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+  <link type="text/css" rel="stylesheet" href="./lyrics.css">
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="button-container">
+      <select id="songSelector"></select>
+      <button class="button" id="resetButton">Reset</button>
+      <button class="button" id="giveUpButton">Give Up</button>
+    </div>
+  </div>
+
+  <div class="overlay-bkgd"></div>
+  <div class="overlay">
+    <span class="close-btn">✖</span>
+    Congratulations, you got it!!!
+  </div>
+
+  <div style="padding: 10px">
+    <input type="text" id="input">
+  </div>
+  <table id="lyricsTable" class="data"></table>
+
+</body>
+
+<script type="module" src="./lyrics.js"></script>
