@@ -3,7 +3,7 @@ import { Song } from "./song.js";
 
 // initOverlays(document);
 
-const ROW_LENGTH = 15;
+const ROW_LENGTH = 17;
 
 // Collect song lyrics
 const base = "https://raw.githubusercontent.com/corinaminer/lyrics-quiz/master/rvlyrics/";
