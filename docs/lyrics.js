@@ -42,12 +42,14 @@ function initTableForSong(song) {
     return lyricsCells;
 }
 
+let guessListener;
+
 function play(song) {
     const lyricCells = initTableForSong(song);
     let keys_guessed = new Set();
 
     // Set up input field to check guesses
-    const guessListener = function(event) {
+    guessListener = function(event) {
         const word = event.target.value.trim().toLowerCase();
         if (!word || keys_guessed.has(word)) {
             return;
@@ -88,6 +90,7 @@ function play(song) {
         input.disabled = true;
     }
 
+    input.disabled = false;
     input.focus();
 }
 
@@ -103,6 +106,7 @@ for (const song of songs) {
     songSelector.add(new Option(song.name));
 }
 songSelector.addEventListener("change", function(event) {
+    input.removeEventListener("input", guessListener);
     if (event.target.value == randomSongOptionName) {
         playRandomSong();
     } else {
