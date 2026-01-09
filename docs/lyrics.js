@@ -1,7 +1,5 @@
 import { initWinOverlay, openWinOverlay } from "./overlay_handler.js";
-import { Song } from "./song.js";
-
-// initOverlays(document);
+import { isAlphaNumeric, Song } from "./song.js";
 
 const ROW_LENGTH = 17;
 
@@ -50,7 +48,13 @@ function play(song) {
 
     // Set up input field to check guesses
     guessListener = function(event) {
-        const word = event.target.value.trim().toLowerCase();
+        const rawGuess = event.target.value.trim().toLowerCase();
+        let word = "";
+        for (const l of rawGuess) {
+            if (isAlphaNumeric(l)) {
+                word += l;
+            }
+        }
         if (!word || keys_guessed.has(word)) {
             return;
         }

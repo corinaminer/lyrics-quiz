@@ -1,4 +1,4 @@
-function isAlphaNumeric(char) {
+export function isAlphaNumeric(char) {
   return /^[a-z0-9]$/i.test(char);
 }
 
