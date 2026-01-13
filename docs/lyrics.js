@@ -15,10 +15,16 @@ for (const name of song_names) {
 initWinOverlay(document);
 
 const songSelector = document.getElementById("songSelector");
+const partSelector = document.getElementById("partSelector");
 const resetButton = document.getElementById("resetButton");
 const peekButton = document.getElementById("peekButton");
 const input = document.getElementById("input");
+
 const lyricsTable = document.getElementById("lyricsTable");
+let currentSong;
+let lyricCells;
+let guessListener;
+let hasPeeked = false;
 
 function initTableForSong(song) {
     // Set up table for the given song
@@ -34,15 +40,21 @@ function initTableForSong(song) {
         const col = Math.floor(i / rowCount);
         const cell = row.insertCell(col);
         cell.classList.add("hidden-cell");
-        cell.innerHTML = song.lyrics[i];
+        cell.innerHTML = song.lyrics[i].word;
         lyricsCells.push(cell);
     }
     return lyricsCells;
 }
 
-let guessListener;
-let lyricCells;
-let hasPeeked = false;
+function styleTableForPart(part) {
+    lyricCells.forEach((cell, i) => {
+        if (currentSong.lyrics[i].forPart(part)) {
+            cell.classList.add("selected-cell");
+        } else {
+            cell.classList.remove("selected-cell");
+        }
+    })
+}
 
 function togglePeek(peek) {
     // Toggles the peek button to "Peek" or "Hide". Sets its onclick to toggle the other way.
@@ -66,7 +78,14 @@ function togglePeek(peek) {
 }
 
 function play(song) {
+    currentSong = song;
     lyricCells = initTableForSong(song);
+    if (song.hasParts) {
+        partSelector.classList.remove("hidden");
+        styleTableForPart(partSelector.value, song, lyricCells);
+    } else {
+        partSelector.classList.add("hidden");
+    }
     let keys_guessed = new Set();
 
     // Set up input field to check guesses
@@ -134,5 +153,7 @@ songSelector.addEventListener("change", function(event) {
         play(selectedSong);
     }
 })
+
+partSelector.addEventListener("change", function(event) {styleTableForPart(event.target.value)});
 
 playRandomSong();

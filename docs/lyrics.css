@@ -29,6 +29,10 @@ button, select {
   border-radius: 4px;
 }
 
+select.hidden {
+  display: none;
+}
+
 button {
   width: 150px;
   cursor: pointer;
@@ -44,24 +48,31 @@ input {
   font-size: 18px;
 }
 
-table, td {
-  background-color: #121212;
-  color: #dcf;
-  border: 2px solid grey;
+table {
   border-collapse: collapse;
-  empty-cells: show;
-  padding: 4px;
-  min-height: 60px;
   font-family: Arial, sans-serif;
   font-size: 16px;
 }
 
+td {
+  color: #dcf;
+  background-color: #121212;
+  border: 2px solid grey;
+  padding: 4px;
+  min-height: 60px;
+}
+
 .hidden-cell {
-  visibility: hidden;
+  color: transparent;
+  user-select: none;
 }
 
 .missed-cell {
   color: rgb(242, 208, 14);
+}
+
+td.selected-cell {
+  background-color: #2a104f;
 }
 
 .overlay {
