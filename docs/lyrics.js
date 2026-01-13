@@ -42,6 +42,7 @@ function initTableForSong(song) {
 
 let guessListener;
 let lyricCells;
+let hasPeeked = false;
 
 function togglePeek(peek) {
     // Toggles the peek button to "Peek" or "Hide". Sets its onclick to toggle the other way.
@@ -60,6 +61,7 @@ function togglePeek(peek) {
         if (!peek) {
             input.focus();
         }
+        hasPeeked = true;
     }
 }
 
@@ -87,7 +89,7 @@ function play(song) {
             }
             input.value = "";
             if (keys_guessed.size == song.keys.size) {
-                openWinOverlay();
+                openWinOverlay(hasPeeked);
             }
         }
     };
@@ -100,14 +102,14 @@ function play(song) {
             c.classList.remove("missed-cell");
         }
         keys_guessed = new Set();
+        hasPeeked = false;
         togglePeek(true);
         input.disabled = false;
         input.focus();
     }
 
-    // Peek button should reveal remaining lyrics
+    hasPeeked = false;
     togglePeek(true);
-
     input.disabled = false;
     input.focus();
 }

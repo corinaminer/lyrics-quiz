@@ -7,7 +7,16 @@ function closeOverlay() {
     overlayBackgroundDiv.classList.remove("active");
 }
 
-export function openWinOverlay() {
+export function openWinOverlay(hasPeeked) {
+    if (hasPeeked) {
+        overlayTextDiv.innerHTML = `
+            Nice work!
+            <div style="font-size: 22px">Next time, try without peeking 😉</div>
+        `;
+    } else {
+        overlayTextDiv.innerHTML = "Congratulations, you got it!!!";
+    }
+    console.log(overlayTextDiv)
     overlayDiv.classList.add("active");
     overlayBackgroundDiv.classList.add("active");
 }
