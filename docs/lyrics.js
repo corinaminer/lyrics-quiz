@@ -16,7 +16,7 @@ initWinOverlay(document);
 
 const songSelector = document.getElementById("songSelector");
 const resetButton = document.getElementById("resetButton");
-const giveUpButton = document.getElementById("giveUpButton");
+const peekButton = document.getElementById("peekButton");
 const input = document.getElementById("input");
 const lyricsTable = document.getElementById("lyricsTable");
 
@@ -41,9 +41,30 @@ function initTableForSong(song) {
 }
 
 let guessListener;
+let lyricCells;
+
+function togglePeek(peek) {
+    // Toggles the peek button to "Peek" or "Hide". Sets its onclick to toggle the other way.
+    const oldClass = peek ? "hidden-cell" : "missed-cell";
+    const newClass = peek ? "missed-cell" : "hidden-cell";
+    peekButton.innerHTML = peek ? "Peek" : "Hide";
+    peekButton.onclick = () => {
+        for (const c of lyricCells) {
+            if (c.classList.contains(oldClass)) {
+                c.classList.remove(oldClass);
+                c.classList.add(newClass);
+            }
+        }
+        togglePeek(!peek);
+        input.disabled = peek;
+        if (!peek) {
+            input.focus();
+        }
+    }
+}
 
 function play(song) {
-    const lyricCells = initTableForSong(song);
+    lyricCells = initTableForSong(song);
     let keys_guessed = new Set();
 
     // Set up input field to check guesses
@@ -79,20 +100,13 @@ function play(song) {
             c.classList.remove("missed-cell");
         }
         keys_guessed = new Set();
+        togglePeek(true);
         input.disabled = false;
         input.focus();
     }
 
-    // Give up button should reveal remaining lyrics
-    giveUpButton.onclick = () => {
-        for (const c of lyricCells) {
-            if (c.classList.contains("hidden-cell")) {
-                c.classList.remove("hidden-cell");
-                c.classList.add("missed-cell");
-            }
-        }
-        input.disabled = true;
-    }
+    // Peek button should reveal remaining lyrics
+    togglePeek(true);
 
     input.disabled = false;
     input.focus();
