@@ -16,7 +16,6 @@ export function openWinOverlay(hasPeeked) {
     } else {
         overlayTextDiv.innerHTML = "Congratulations, you got it!!!";
     }
-    console.log(overlayTextDiv)
     overlayDiv.classList.add("active");
     overlayBackgroundDiv.classList.add("active");
 }
