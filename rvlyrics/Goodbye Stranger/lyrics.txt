@@ -1,4 +1,4 @@
-It was an early morning yesterday
+[] It was an early morning yesterday
 I was up before the dawn
 And I really have enjoyed my stay
 But I must be movin' on
@@ -10,23 +10,28 @@ Now I believe in what you say
 Is the undisputed truth
 But I have to have things my own way
 To keep me in my youth
-Like a ship without an anchor (ooh)
+Like a ship without an anchor
+[SB] (ooh)
 Like a man without a name
-Just the thought of those sweet ladies (ooh)
-Sends a shiver through my veins
-And I will go on shining (ooh)
-Shining like brand new
-I'll never look behind me (ooh)
-My troubles will be few
-Goodbye stranger it's been nice
+Just the thought of those sweet ladies
+[a] (ooh)
+[] Sends a shiver through my veins
+And I will go on shining
+[stb] (ooh)
+[] Shining like brand new
+I'll never look behind me
+[a] (ooh)
+[] My troubles will be few
+[at] Goodbye stranger it's been nice
 Hope you find your paradise
 Tried to see your point of view
 Hope your dreams will all come true
-Goodbye Mary, goodbye Jane
+[atb] Goodbye Mary, goodbye Jane
 Will we ever meet again?
 Feel no sorrow, feel no shame
-Come tomorrow, feel no pain
-An' sweet devotion,
+Come tomorrow,
+[ab] feel no pain
+[t] An' sweet devotion,
 It's not for me
 Just give me motion
 And set me free
@@ -36,20 +41,21 @@ It's the life I've chosen
 Every day
 So goodbye Mary, goodbye Jane
 Will we ever meet again?
-Now some they do and some they don't
+[t] Now, [at] some they do and some they don't
 And some you just can't tell
 And some they will and some they won't
 With some it's just as well
-You can laugh at my behavior
-And that'll never bother me
+[tb] You can [atb] laugh at my behavior
+[s] (ooh)
+[atb] And that'll never bother me
 Say the devil is my savior
 But I don't pay no heed
 And I will go on shining
 Shining like brand new
-I'll never look behind me
+[satb] I'll never look behind me
 My troubles will be few
-Goodbye, stranger, it's been nice...
-It's the life I've chosen
+[at] Goodbye, stranger, it's been nice...
+[t] It's the life I've chosen
 Every day
 So now I'm leaving
 Got to go

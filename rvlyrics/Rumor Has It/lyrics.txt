@@ -1,5 +1,6 @@
-She, she ain't real
-She ain't gon' be able to love you like I will
+[a] Ooh, ooh
+[] She, she ain't real [sa] (ooh, ooh...)
+[] She ain't gon' be able to love you like I will
 She is a stranger
 You and I have history, or don't you remember?
 Sure, she's got it all
@@ -10,23 +11,26 @@ She made a fool out of you, and boy she's bringing you down
 She made your heart melt, but she's cold to the core.
 Now rumor has it, she ain't got your love anymore
 
-Rumor has it! (rumor)...
+[s] Rumor has it!
+[atb] (rumor)
+[s] Rumor has it!
+[atb] (rumor)...
 
-Don't forget me, I beg (rumor has it!)
-I remember you said (rumor has it!)
-I heard that you settled down (ooh...)
-That you found a girl and you're married now (ooh...)
-I heard that your dreams came true (ooh...)
-Guess she gave you things I didn't give to you
+[] Don't forget me, I beg [atb] (rumor) [s] (rumor has it!)
+[] I remember you said [atb] (rumor) [s] (rumor has it!)
+[] I heard that you settled down [satb] (ooh)
+[] That you found a girl and you're married now [satb] (ooh)
+[] I heard that your dreams came true [satb] (ooh)
+[] Guess she gave you things I didn't give to you [satb] (ooh)
 
-Whoa, rumor has it! (rumor)...
-Yeah, baby!
-Don't forget me, I beg (rumor has it!)
-I remember you said (rumor has it!)
+[] Whoa, [s] rumor has it! [atb] (rumor)...
+[] Yeah, baby!
+Don't forget me, I beg [s] (rumor has it!) [atb] (rumor)
+[] I remember you said [s] (rumor has it!) [atb] (rumor)
 
-Never mind, I'll find someone like you (rumor has it!)
-I wish nothing but the best for you two (rumor has it!)
-Don't forget me, I beg
+[satb] Never mind, I'll find someone like you [s] (rumor has it!)
+[satb] I wish nothing but the best for you two [s] (rumor has it!)
+[satb] Don't forget me, I beg
 I remember you said
 Sometimes it lasts in love, but sometimes it hurts instead
-Sometimes it lasts in love, but sometimes it hurts instead
+[] Sometimes it lasts in love, but sometimes it hurts instead
