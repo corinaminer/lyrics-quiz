@@ -29,7 +29,7 @@ export function initWinOverlay(document) {
     document.querySelector(".overlay-bkgd").onclick = closeOverlay;
     document.querySelector(".close-btn").onclick = closeOverlay;
     document.addEventListener("keydown", event => {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" || event.key === "Enter") {
             closeOverlay();
         }
     });
