@@ -65,8 +65,10 @@ Can't you just let it be?
 [] Ah ha
 [satb] I'm alright [] (I'm alright!)
 [satb] I'm alright [] (I'm alright!)
+[satb] I'm alright [] (I'm alright!)
 [satb] Just a let me be
-[] Ah ah ah
+[] (Ah ah ah)
+[satb] I'm alright [] (No! I'm alright)
 [satb] I'm alright, [sat] ooh!
 [satb] I'm alright
 Just a let me be
